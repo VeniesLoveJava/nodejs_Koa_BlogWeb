@@ -1,0 +1,183 @@
+<!DOCTYPE <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+    <link type="text/css" rel="styleSheet"  href="./iron.css" />
+    <script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+    <title>个人站点主页</title>
+    <script> 
+        //对留言信息的长度进行校验
+        // function validate_required(field,alerttxt)
+        //     {
+        //     with (field)
+        //     {
+        //     if (value.length > 20||value=="")
+        //         {alert(alerttxt);return false}
+        //     else {return true}
+        //     }
+        //     }
+
+        //     function validate_form(thisform)
+        //     {
+        //     with (thisform)
+        //     {
+        //     if (validate_required(mes,"留言信息过长/留言不能为空")==false)
+        //         {mes.focus();return false}
+        //     }
+        //     }
+        //获取系统时间
+        function getSystemTime(){
+            $.ajax({
+            type:'GET',
+            url:'/sysTime_wenzhiqun',
+            success: function(data){
+                if(data){
+                    document.getElementById('time').innerHTML= data;
+
+                }else{
+                    alert('失败了！');
+                    }
+                }
+            })
+        }
+        //获取访问次数
+        function getVisit(){
+            $.ajax({
+            type:'GET',
+            url:'/visit',
+            success: function(data){
+                if(data){
+                    document.getElementById('foot').innerHTML= data;
+                }else{
+                    alert('失败了！');
+                    }
+                }
+            })
+        }
+        //获取留言信息
+        function getMesBox(){
+            $.ajax({
+            type:'GET',
+            url:'/message/list',
+            success: function(data){
+                if(data){
+                    document.getElementById('messageBox').innerHTML= data;
+                }else{
+                    alert('失败了！');
+                    }
+                }
+            })
+        }
+        //提交留言
+        function mesPost(){
+            console.log($('.form').serialize())
+            let mes = $("#message").val() ;
+            alert(mes);
+            if(mes == '' || mes.length >= 20){
+                alert("留言不能为空或超过20个字符长度");
+            }else{
+                $.ajax({
+            type:'POST',
+            url:'/message',
+            // data:{message : mes },
+            data:$('.form').serialize(),
+            success: function(data){
+                if(data){
+                    getMesBox();
+                    // alert(data);
+                }else{
+                    alert('失败了！');
+                    }
+                }
+            })
+            }
+        }
+        //获取客户端信息
+        function getClientMes(){
+            $.ajax({
+            type:'GET',
+            url:'/sysinfo',
+            success: function(data){
+                if(data){
+                    document.getElementById('xiugai').innerHTML= data;
+                }else{
+                    alert('失败了！');
+                    }
+                }
+            })
+        }
+        function choose(){
+            let choose = parseInt(3*Math.random())+1;
+            if(choose === 1 ){
+                document.getElementById('body').style.backgroundColor = 'white';
+            }if(choose === 2){
+                document.getElementById('body').style.backgroundColor = 'rgb(212, 211, 211)';
+            }if(choose ===3){
+                document.getElementById('body').style.backgroundColor = 'rgb(251, 255, 188)';
+            }
+        }
+        function changeStyle(){
+            $.ajax({
+            type:'GET',
+            url:'/HomePage',
+            success: function(data){
+                if(data){
+                    console.log('欢迎来到首页')
+                }else{
+                    alert('失败了！');
+                    }
+                }
+            })
+            setInterval('choose()',3000); 
+        }
+    </script>
+
+</head>
+<!-- <body id="body" style="background-color: rgb(252, 252, 252) "> -->
+<!-- <body id="body"  onload="changeStyle()" style="background-image: url(./bg1.jpg)"> -->
+<body id="body"  onload="changeStyle()" style="background-color: rgb(248, 211, 211)"></body>
+    <p id="header">IronMan</p>
+    <h4 id="time" onclick="getSystemTime()">点我刷新服务器时间</h4>
+    <div>
+        <div id="myimage">
+            <img src="./iron2.jpg">
+        </div>
+        <div id="kongbai"></div>
+        <div id="headDiv">
+            <h3>个人介绍</h3>
+            <h4>IronMan</h4>
+            <h4>诞生地：Marvel</h4>
+            <h4>详细介绍：</h4>
+            <p>托尼·史塔克（Tony Stark）即钢铁侠（Iron Man），
+                是美国漫威漫画旗下超级英雄，初次登场于《悬疑故事》（Tales of Suspense）第39期（1963年3月），
+                由斯坦·李、赖瑞·理柏、唐·赫克以及杰克·科比联合创造。全名安东尼·爱德华·“托尼”·斯塔克（Anthony Edward “Tony” Stark），
+                是斯塔克工业（STARK INDUSTRIES）的董事长，因于一场阴谋绑架中，胸部遭弹片穿入，生命危在旦夕，为了挽救自己的生命，
+                在同被绑架的物理学家殷森（Yin Sen）的协助下托尼造出了防止弹片侵入心脏的方舟反应炉从而逃过一劫，后又用方舟反应炉作为能量运转的来源，
+                暗中制造了一套高科技战衣杀出重围后逃脱，后参与创立复仇者联盟。</p>
+            </p>
+        </div>
+    </div>
+    
+    <form class="form create" method="post ">
+        <div>
+            <label>留言板 ：</label> 
+            <input placeholder="留言" type="text" name="message" id="message">
+        </div>
+        <div class="submit" onclick="mesPost()">提交</div>
+    </form> 
+
+    <div id="headDiv2">
+            <!-- <p><b>留言板：</b></p> <input name="mes" id="message"><br>
+            <input type="submit" onclick="mesPost()"> -->
+        <h4 id="messageBox"  onclick="getMesBox()">点我显示留言栏</h4>
+        <h4 onclick="getClientMes()" >点我显示当前访问的客户端信息为：</h4><p id="xiugai"></p>
+    </div>
+   
+       
+    <div >
+        <p id="foot" onclick="getVisit()">点我显示访问量</p>
+    </div>
+    
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>IronMan 登陆页面</title>
+    <script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+    <style>
+        #header{
+            background-color:black;
+            color:white;
+            text-align:center;
+            padding:5px;
+            height: 20px;
+        }
+    </style>
+    <script>
+        function login(){
+            let profile = $("#profile").val() ;
+            let pwd = $("#pwd").val();
+            $.ajax({
+                type:'POST',
+                url:'/login',
+                data:{profile : profile,
+                    pwd : pwd
+                },
+                success: function(data){
+                    if(data == '2'){
+                        // alert(data);
+                        red(data);
+                    }else{
+                        alert('账号或密码出错了！');
+                        }
+                    }
+                })
+        }
+        function red(data){
+            // let dd = data.split(',');
+            // let us = dd[0];
+            // let ro = dd[1];
+            let link = '/HomePage';
+            window.location.href=link;
+        }
+        function register(){
+            let profile = $("#profile2").val() ;
+            let username = $("#username").val();
+            let pwd = $("#pwd2").val();
+            $.ajax({
+                type:'POST',
+                url:'/register',
+                data:{profile : profile,
+                    username : username,
+                    pwd : pwd
+                },
+                success: function(data){
+                    if(data == '1'){
+                        alert("注册成功，跳转至首页！");
+                        red(data);
+                    }else{
+                        alert('账号名或密码已存在！');
+                        }
+                    }
+                })
+        }
+        function changePwd(){
+            let profile = $("#profile3").val() ;
+            let old_pwd = $("#old_pwd").val();
+            let new_pwd = $("#pwd3").val();
+            let new_pwd2 = $("#pwd4").val();
+            if(new_pwd != new_pwd2){
+                alert("输入的两次密码不一致，请重新输入");
+            }else{
+                $.ajax({
+                type:'POST',
+                url:'/changePwd',
+                data:{profile : profile,
+                    pwd : old_pwd,
+                    pwd2 : new_pwd
+                },
+                success: function(data){
+                    if(data){
+                        alert("修改成功");
+                        red(data);
+                    }else{
+                        alert('账号名或密码已存在！');
+                        }
+                    }
+                })
+            }
+        }
+    </script>
+</head>
+<body>
+        <p id="header">IronMan</p>
+        <h2 style="text-align: center">
+            <b style="color: rgb(255, 180, 180)">欢迎来到IronMan的个站</b>
+        </h2>
+        <table>
+            <tr>
+                <th>
+                    <h3 style="color: rgb(145, 145, 253)" >登陆</h3>
+                </th>
+            </tr>
+            <tr>
+                <td>账号：</td><td><input id="profile"></td>
+            </tr>
+            <tr>
+                <td>密码：</td><td><input id="pwd"></td>
+            </tr>
+            <tr>
+                <td><input value="登陆" type="submit" onclick="login()"></td>
+            </tr>
+        </table>
+        <br>
+
+        <table style="text-align: left">
+            <tr>
+                <th><h3 style="color: rgb(145, 145, 253)" >注册</h3></th>
+            </tr>
+            <tr>
+                <td><b>请填写以下信息并完成注册：</b></td>
+            </tr>
+            <tr>
+                <td>账号（邮箱）：</td><td><input id="profile2"></td>
+            </tr>
+            <tr>
+                <td>用户名：</td><td><input id="username"></td>
+            </tr>
+            <tr>
+                <td>密码：</td><td><input id="pwd2"></td>
+            </tr>
+            <tr>
+                <td><input value="注册" type="submit" onclick="register()"></td>
+            </tr>
+        </table>
+        <br>
+        <table style="text-align: left">
+            <tr>
+                <th><h3 style="color: rgb(145, 145, 253)" >修改密码</h3></th>
+            </tr>
+            <tr>
+                <td>账号</td><td><input id="profile3"></td>
+            </tr>
+            <tr>
+                <td>请输入旧密码：</td><td><input id="old_pwd"></td>
+            </tr>
+            <tr>
+                <td>新密码：</td><td><input id="pwd3"></td>
+            </tr>
+            <tr>
+                <td>确认密码：</td><td><input id="pwd4"></td>
+            </tr>
+            <tr>
+                <td><input value="确认修改" type="submit" onclick="changePwd()"></td>
+            </tr>
+        </table>
+        <br>
+        <h3 id="visiter" style="color: rgb(145, 145, 253)" >访客通道</h3>
+</body>
+</html>

@@ -1,0 +1,23 @@
+{
+  "name": "personal_web",
+  "version": "1.0.0",
+  "description": "use KOA to compile the personal project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Venies",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "koa": "^2.5.1",
+    "koa-bodyparser": "^4.2.1",
+    "koa-generator": "^1.1.16",
+    "koa-mysql-session": "0.0.2",
+    "koa-router": "^7.4.0",
+    "koa-session-minimal": "^3.0.4",
+    "koa-static": "^5.0.0",
+    "koa-views": "^6.1.4",
+    "mysql": "^2.15.0"
+  }
+}
